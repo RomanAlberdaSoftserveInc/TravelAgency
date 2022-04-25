@@ -63,20 +63,18 @@
     <Folder Include="Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\tblUser.sql" />
-    <Build Include="dbo\Tables\tblManager.sql" />
-    <Build Include="dbo\Tables\tblEatingType.sql" />
     <Build Include="dbo\Tables\tblHotel.sql" />
-    <Build Include="dbo\Tables\tblTransport.sql" />
-    <Build Include="dbo\Tables\tblTransportation.sql" />
-    <Build Include="dbo\Tables\tblTourTransportation.sql" />
     <Build Include="dbo\Tables\tblTourType.sql" />
     <Build Include="dbo\Tables\tblTour.sql" />
     <Build Include="dbo\Tables\tblCheck.sql" />
     <Build Include="dbo\Tables\tblManagerTour.sql" />
+    <Build Include="dbo\Tables\tblTransport.sql" />
+    <Build Include="dbo\Tables\tblTransportation.sql" />
+    <Build Include="dbo\Tables\tblTourTransportation.sql" />
+    <Build Include="dbo\Tables\tblAgency.sql" />
+    <Build Include="dbo\Tables\tblManager.sql" />
+    <Build Include="dbo\Tables\tblUser.sql" />
+    <Build Include="dbo\Tables\tblEatingType.sql" />
     <Build Include="Stored Procedures\spGetCarTransport.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TravelAgencyDB.publish.xml" />
   </ItemGroup>
 </Project>
