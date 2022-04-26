@@ -1,7 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spGetCarTransport]
 AS
-	SET NOCOUNT ON;
-	SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
 	BEGIN TRANSACTION
 
 	DECLARE @transportType varchar(3) = 'car'

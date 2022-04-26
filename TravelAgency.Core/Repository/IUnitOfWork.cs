@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Data;
 
-namespace Quorum.OnDemand.Importer.Core.Repository;
-
-public interface IUnitOfWork : IDisposable
+namespace Quorum.OnDemand.Importer.Core.Repository
 {
-    public IDbConnection Connection { get; }
-    public IDbTransaction Transaction { get; }
-    void Begin();
-    void Commit();
-    void Rollback();
+    public interface IUnitOfWork : IDisposable
+    {
+        public IDbConnection Connection { get; }
+        public IDbTransaction Transaction { get; }
+        void Begin();
+        void Commit();
+        void Rollback();
+    }
 }

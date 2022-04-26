@@ -1,29 +1,45 @@
 ﻿using System.Collections.Generic;
-using Dapper;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
+using System.Threading.Tasks;
 using Quorum.OnDemand.Importer.Core.Repository;
-
+using TravelAgency.Core.Entities;
+using TravelAgency.Core.Repository;
+using Dapper;
+using System.Data;
 
 namespace TravelAgency.Infrastructure.Repositories
 {
-    public class TransportRepository
+    public class TransportRepository : ITransportRepository
     {
-        private readonly IConfiguration _configuration;
-        public ImporterDbContext(IConfiguration configuration)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public TransportRepository(IUnitOfWork unitOfWork)
         {
-            _configuration = configuration;
+            _unitOfWork = unitOfWork;
         }
-        public virtual string ConnectionString => _configuration["POSTGRESQL_CONNECTION_STRING"];
-        public virtual void ConfigureOrm()
+
+        public Task<int> AddAsync(Transport entity)
         {
-            DefaultTypeMap.MatchNamesWithUnderscores = true;
-            SqlMapper.AddTypeHandler(typeof(Dictionary<string, string>), new JsonTypeMapper());
-            SqlMapper.AddTypeHandler(typeof(Dictionary<string, object>), new JsonTypeMapper());
+            throw new System.NotImplementedException();
         }
-        public virtual void ConfigureDb()
+
+        public Task<bool> DeleteAsync(Transport entity)
         {
-            NpgsqlConnection.GlobalTypeMapper.UseJsonNet();
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IReadOnlyList<Transport>> GetAllAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Transport> GetByIdAsync(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Transport>> GetCarTransports()
+        {
+            return await _unitOfWork.Connection.QueryAsync<Transport>("dbo.spGetCarTransport", commandType: CommandType.StoredProcedure);
         }
     }
 }
