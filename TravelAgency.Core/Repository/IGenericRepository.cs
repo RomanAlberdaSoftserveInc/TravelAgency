@@ -8,6 +8,7 @@ namespace TravelAgency.Core.Repository
         Task<T> GetByIdAsync(int id);
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<int> AddAsync(T entity);
+        Task<int> UpdateAsync(T entity);
         Task<bool> DeleteAsync(T entity);
     }
 }

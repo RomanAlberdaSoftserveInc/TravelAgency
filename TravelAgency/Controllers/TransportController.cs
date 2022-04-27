@@ -5,42 +5,48 @@ using TravelAgency.Core.Repository;
 
 namespace TravelAgency.Controllers
 {
-    public class TransportationController : BaseApiController
+    public class TransportController : BaseApiController
     {
-        private readonly ITransportationRepository _transportRepository;
-        public TransportationController(ITransportationRepository transportRepository)
+        private readonly ITransportRepository _transportRepository;
+        public TransportController(ITransportRepository transportRepository)
         {
             _transportRepository = transportRepository;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTransportation([FromBody] Transportation transport)
+        public async Task<IActionResult> CreateTransport([FromBody] Transport transport)
         {
             return Ok(await _transportRepository.AddAsync(transport));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTransportation([FromBody] Transportation transport)
+        public async Task<IActionResult> UpdateTransport([FromBody] Transport transport)
         {
             return Ok(await _transportRepository.UpdateAsync(transport));
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteTransportation([FromBody] Transportation transport)
+        public async Task<IActionResult> DeleteTransport([FromBody] Transport transport)
         {
             return Ok(await _transportRepository.DeleteAsync(transport));
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTransportation(int id)
+        public async Task<IActionResult> GetTransport(int id)
         {
             return Ok(await _transportRepository.GetByIdAsync(id));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTransportations()
+        public async Task<IActionResult> GetTransports()
         {
             return Ok(await _transportRepository.GetAllAsync());
+        }
+
+        [HttpGet("cars")]
+        public async Task<IActionResult> GetCarTransports()
+        {
+            return Ok(await _transportRepository.GetCarTransports());
         }
     }
 }

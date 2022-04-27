@@ -61,6 +61,8 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="Stored Procedures" />
+    <Folder Include="Stored Procedures\Transport" />
+    <Folder Include="Stored Procedures\Transportation" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\tblHotel.sql" />
@@ -75,8 +77,9 @@
     <Build Include="dbo\Tables\tblManager.sql" />
     <Build Include="dbo\Tables\tblUser.sql" />
     <Build Include="dbo\Tables\tblEatingType.sql" />
-    <Build Include="Stored Procedures\spGetCarTransport.sql" />
     <Build Include="dbo\Tables\tblTravelAgent.sql" />
+    <Build Include="Stored Procedures\Transport\spGetCarTransport.sql" />
+    <Build Include="Stored Procedures\Transportation\spDeleteTransportation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TravelAgencyDB.publish.xml" />

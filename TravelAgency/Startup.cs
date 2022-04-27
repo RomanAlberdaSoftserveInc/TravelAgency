@@ -31,6 +31,7 @@ namespace TravelAgency
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITransportRepository, TransportRepository>();
+            services.AddTransient<ITransportationRepository, TransportationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
