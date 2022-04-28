@@ -80,6 +80,7 @@
     <Build Include="dbo\Tables\tblTravelAgent.sql" />
     <Build Include="Stored Procedures\Transport\spGetCarTransport.sql" />
     <Build Include="Stored Procedures\Transportation\spDeleteTransportation.sql" />
+    <Build Include="Stored Procedures\Transportation\spAddTransportation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TravelAgencyDB.publish.xml" />

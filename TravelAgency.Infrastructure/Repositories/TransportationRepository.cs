@@ -20,20 +20,22 @@ namespace TravelAgency.Infrastructure.Repositories
 
         public async Task<int> AddAsync(Transportation entity)
         {
-            var sql = @"INSERT INTO tblTransport 
-                        (type,
-                        model,
-                        number)
-                 VALUES (@Type,
-                        @Model,
-                        @Number)";
-            return await _unitOfWork.Connection.ExecuteAsync(sql, entity, _unitOfWork.Transaction);
+            var parameters = new Dictionary<string, object>()
+            {
+                ["depatureLocation"] = entity.DepatureLocation,
+                ["arrivalLocation"] = entity.ArrivalLocation,
+                ["depatureTime"] = entity.DepatureTime,
+                ["arrivalTime"] = entity.ArrivalTime,
+                ["pricePerPerson"] = entity.PricePerPerson,
+                ["transportId"] = entity.Transport.Id,
+            };
+            return await _unitOfWork.Connection.ExecuteAsync("dbo.spAddTransportation", parameters, commandType: CommandType.StoredProcedure);
         }
 
         public async Task<bool> DeleteAsync(Transportation entity)
         {
-            var id = entity?.Id; 
-            return await _unitOfWork.Connection.ExecuteAsync("dbo.spDeleteTransportation", new { transportationdId = id }, commandType: CommandType.StoredProcedure) > 1; // We can get Return Value using DynamicParams
+            var id = entity?.Id;
+            return await _unitOfWork.Connection.ExecuteAsync("dbo.spDeleteTransportation", new { transportationdId = id }, commandType: CommandType.StoredProcedure) > 1;
         }
 
         public async Task<IReadOnlyList<Transportation>> GetAllAsync()
