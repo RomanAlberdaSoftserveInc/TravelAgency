@@ -6,7 +6,7 @@
 	@country varchar(255),
 	@city varchar(255),
 	@address varchar(255),
-	@eatingTypeId int
+	@eatingType varchar(255)
 AS
 BEGIN
 	declare @errMsg nvarchar(1024);
@@ -20,9 +20,9 @@ BEGIN
 			country, 
 			city,
 			address,
-			eatingTypeId)
+			eatingType)
 		VALUES 
-			(@name, @stars, @description, @pricePerDay, @country, @city, @address, @eatingTypeId)
+			(@name, @stars, @description, @pricePerDay, @country, @city, @address, @eatingType)
 		COMMIT TRANSACTION;
 	END TRY
     BEGIN CATCH

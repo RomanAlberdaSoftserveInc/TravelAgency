@@ -70,8 +70,7 @@ namespace TravelAgency.Infrastructure.Repositories
 							   h.address,
 							   h.description,
 							   h.pricePerDay,
-							   et.id,
-							   et.type,
+							   h.eatingType,
 							   trp.id,
 							   trp.arrivalLocation,
 							   trp.depatureLocation,
@@ -87,8 +86,6 @@ namespace TravelAgency.Infrastructure.Repositories
                         ON t.tourTypeId = tt.id
 						LEFT JOIN tblHotel h
                         ON h.id = t.hotelId
-						LEFT JOIN tblEatingType et
-                        ON h.id = et.id
 						LEFT JOIN tblTourTransportation ttrp
                         ON t.id = ttrp.tourId
 						LEFT JOIN tblTransportation trp
@@ -96,12 +93,8 @@ namespace TravelAgency.Infrastructure.Repositories
 						LEFT JOIN tblTransport transp
                         ON trp.transportId = transp.id";
 
-            var hotels = await _unitOfWork.Connection.QueryAsync<Tour, TourType, Hotel, EatingType, Transportation, Transport, Tour>(sql, (tour, tourType, hotel, eatingType, transportation, transport) =>
+            var hotels = await _unitOfWork.Connection.QueryAsync<Tour, TourType, Hotel, Transportation, Transport, Tour>(sql, (tour, tourType, hotel, transportation, transport) =>
              {
-                 if (hotel != null)
-                 {
-                     hotel.EatingType = eatingType;
-                 }
                  if (transportation != null)
                  {
                      transportation.Transport = transport;
@@ -141,8 +134,7 @@ namespace TravelAgency.Infrastructure.Repositories
 							   h.address,
 							   h.description,
 							   h.pricePerDay,
-							   et.id,
-							   et.type,
+							   h.eatingType,
 							   trp.id,
 							   trp.arrivalLocation,
 							   trp.depatureLocation,
@@ -158,8 +150,6 @@ namespace TravelAgency.Infrastructure.Repositories
                         ON t.tourTypeId = tt.id
 						LEFT JOIN tblHotel h
                         ON h.id = t.hotelId
-						LEFT JOIN tblEatingType et
-                        ON h.id = et.id
 						LEFT JOIN tblTourTransportation ttrp
                         ON t.id = ttrp.tourId
 						LEFT JOIN tblTransportation trp
@@ -168,21 +158,17 @@ namespace TravelAgency.Infrastructure.Repositories
                         ON trp.transportId = transp.id
                         WHERE t.id = @id";
 
-            var hotels = await _unitOfWork.Connection.QueryAsync<Tour, TourType, Hotel, EatingType, Transportation, Transport, Tour>(sql, (tour, tourType, hotel, eatingType, transportation, transport) =>
-            {
-                if (hotel != null)
-                {
-                    hotel.EatingType = eatingType;
-                }
-                if (transportation != null)
-                {
-                    transportation.Transport = transport;
-                }
-                tour.TourType = tourType;
-                tour.Hotel = hotel;
-                tour.Transportations.Add(transportation);
-                return tour;
-            },
+            var hotels = await _unitOfWork.Connection.QueryAsync<Tour, TourType, Hotel, Transportation, Transport, Tour>(sql, (tour, tourType, hotel, transportation, transport) =>
+           {
+               if (transportation != null)
+               {
+                   transportation.Transport = transport;
+               }
+               tour.TourType = tourType;
+               tour.Hotel = hotel;
+               tour.Transportations.Add(transportation);
+               return tour;
+           },
              param: new { id },
              splitOn: "id");
 

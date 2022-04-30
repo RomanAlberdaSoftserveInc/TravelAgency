@@ -29,7 +29,7 @@ namespace TravelAgency.Infrastructure.Repositories
                 ["country"] = entity.Country,
                 ["city"] = entity.City,
                 ["address"] = entity.Address,
-                ["eatingTypeId"] = entity.EatingType.Id,
+                ["eatingTypeId"] = entity.EatingType,
             };
             return await _unitOfWork.Connection.ExecuteAsync("dbo.spAddHotel", parameters, commandType: CommandType.StoredProcedure);
         }
@@ -51,18 +51,10 @@ namespace TravelAgency.Infrastructure.Repositories
                                h.address,
                                h.country, 
                                h.city,
-                               e.id, 
-                               e.type 
-                        from tblHotel h
-                        INNER JOIN tblEatingType e
-                        ON h.eatingTypeId = e.id";
+                               h.eatingType
+                        from tblHotel h";
 
-            var hotels = await _unitOfWork.Connection.QueryAsync<Hotel, EatingType, Hotel>(sql, (hotel, eatingType) =>
-            {
-                hotel.EatingType = eatingType;
-                return hotel;
-            },
-            splitOn: "id");
+            var hotels = await _unitOfWork.Connection.QueryAsync<Hotel>(sql);
             return hotels.ToList();
         }
 
@@ -76,20 +68,12 @@ namespace TravelAgency.Infrastructure.Repositories
                                h.address,
                                h.country, 
                                h.city,
-                               e.id, 
-                               e.type 
+                               h.eatingType
                         from tblHotel h
-                        INNER JOIN tblEatingType e
-                        ON h.eatingTypeId = e.id
                         WHERE h.id = @id";
 
-            var hotels = await _unitOfWork.Connection.QueryAsync<Hotel, EatingType, Hotel>(sql, (hotel, eatingType) =>
-            {
-                hotel.EatingType = eatingType;
-                return hotel;
-            },
-            param: new { id },
-            splitOn: "id"); 
+            var hotels = await _unitOfWork.Connection.QueryAsync<Hotel>(sql, new { id }, _unitOfWork.Transaction);
+
             return hotels.FirstOrDefault();
         }
 

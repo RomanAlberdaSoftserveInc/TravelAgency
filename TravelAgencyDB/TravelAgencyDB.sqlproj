@@ -72,21 +72,21 @@
     <Build Include="dbo\Tables\tblTourType.sql" />
     <Build Include="dbo\Tables\tblTour.sql" />
     <Build Include="dbo\Tables\tblCheck.sql" />
-    <Build Include="dbo\Tables\tblManagerTour.sql" />
     <Build Include="dbo\Tables\tblTransport.sql" />
     <Build Include="dbo\Tables\tblTransportation.sql" />
-    <Build Include="dbo\Tables\tblTourTransportation.sql" />
     <Build Include="dbo\Tables\tblAgency.sql" />
     <Build Include="dbo\Tables\tblManager.sql" />
     <Build Include="dbo\Tables\tblUser.sql" />
-    <Build Include="dbo\Tables\tblEatingType.sql" />
-    <Build Include="dbo\Tables\tblTravelAgent.sql" />
     <Build Include="Stored Procedures\Transport\spGetCarTransport.sql" />
     <Build Include="Stored Procedures\Transportation\spDeleteTransportation.sql" />
     <Build Include="Stored Procedures\Transportation\spAddTransportation.sql" />
     <Build Include="Stored Procedures\Hotel\spAddHotel.sql" />
     <Build Include="Stored Procedures\Tour\spAddTour.sql" />
     <Build Include="dbo\User Defined Types\TourTransportationType.sql" />
+    <Build Include="dbo\Tables\tblTourPhoto.sql" />
+    <Build Include="dbo\Tables\tblRoleManager.sql" />
+    <Build Include="dbo\Tables\tblRole.sql" />
+    <Build Include="dbo\Tables\tblTourTransportation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TravelAgencyDB.publish.xml" />
