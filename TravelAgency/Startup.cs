@@ -35,6 +35,7 @@ namespace TravelAgency
             services.AddTransient<IEatingTypeRepository, EatingTypeRepository>();
             services.AddTransient<ITourTypeRepository, TourTypeRepository>();
             services.AddTransient<IHotelRepository, HotelRepository>();
+            services.AddTransient<ITourRepository, TourRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
