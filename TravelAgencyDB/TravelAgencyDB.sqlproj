@@ -60,12 +60,15 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
-    <Folder Include="Stored Procedures" />
-    <Folder Include="Stored Procedures\Transport" />
-    <Folder Include="Stored Procedures\Transportation" />
-    <Folder Include="Stored Procedures\Hotel" />
-    <Folder Include="Stored Procedures\Tour" />
     <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Stored Procedures\Hotel" />
+    <Folder Include="dbo\Stored Procedures\Check" />
+    <Folder Include="dbo\Stored Procedures\Tour" />
+    <Folder Include="dbo\Stored Procedures\Transport" />
+    <Folder Include="dbo\Stored Procedures\Transportation" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\tblHotel.sql" />
@@ -77,16 +80,20 @@
     <Build Include="dbo\Tables\tblAgency.sql" />
     <Build Include="dbo\Tables\tblManager.sql" />
     <Build Include="dbo\Tables\tblUser.sql" />
-    <Build Include="Stored Procedures\Transport\spGetCarTransport.sql" />
-    <Build Include="Stored Procedures\Transportation\spDeleteTransportation.sql" />
-    <Build Include="Stored Procedures\Transportation\spAddTransportation.sql" />
-    <Build Include="Stored Procedures\Hotel\spAddHotel.sql" />
-    <Build Include="Stored Procedures\Tour\spAddTour.sql" />
     <Build Include="dbo\User Defined Types\TourTransportationType.sql" />
     <Build Include="dbo\Tables\tblTourPhoto.sql" />
     <Build Include="dbo\Tables\tblRoleManager.sql" />
     <Build Include="dbo\Tables\tblRole.sql" />
     <Build Include="dbo\Tables\tblTourTransportation.sql" />
+    <Build Include="dbo\Stored Procedures\Hotel\spAddHotel.sql" />
+    <Build Include="dbo\Stored Procedures\Check\spAddCheck.sql" />
+    <Build Include="dbo\Stored Procedures\Tour\spAddTour.sql" />
+    <Build Include="dbo\Stored Procedures\Transport\spGetCarTransport.sql" />
+    <Build Include="dbo\Stored Procedures\Transportation\spAddTransportation.sql" />
+    <Build Include="dbo\Stored Procedures\Transportation\spDeleteTransportation.sql" />
+    <Build Include="dbo\Functions\fnGetChecks.sql" />
+    <Build Include="dbo\Views\viewCheck.sql" />
+    <Build Include="dbo\Views\viewTour.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TravelAgencyDB.publish.xml" />

@@ -44,11 +44,21 @@ namespace TravelAgency.Infrastructure.Repositories
             return s;
         }
 
+        public Task<TourPhoto> AddPhoto(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<bool> DeleteAsync(Tour entity)
         {
             var id = entity?.Id;
             var sql = @"DELETE FROM tblHotel WHERE id = @id";
             return await _unitOfWork.Connection.ExecuteAsync(sql, new { id }, _unitOfWork.Transaction) > 0;
+        }
+
+        public Task<TourPhoto> DeletePhoto(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<IReadOnlyList<Tour>> GetAllAsync()
@@ -108,9 +118,9 @@ namespace TravelAgency.Infrastructure.Repositories
 
             var result = hotels.GroupBy(p => p.Id).Select(g =>
             {
-                var groupedPost = g.First();
-                groupedPost.Transportations = g.Select(p => p.Transportations.Single()).ToList();
-                return groupedPost;
+                var groupedHotels = g.First();
+                groupedHotels.Transportations = g.Select(p => p.Transportations.Single()).ToList();
+                return groupedHotels;
             });
             return result.ToList();
         }
@@ -179,6 +189,11 @@ namespace TravelAgency.Infrastructure.Repositories
                 return groupedPost;
             });
             return result.FirstOrDefault();
+        }
+
+        public Task<TourPhoto> GetPhoto(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<int> UpdateAsync(Tour entity)

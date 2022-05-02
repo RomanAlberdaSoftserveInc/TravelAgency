@@ -1,4 +1,6 @@
-﻿namespace TravelAgency.Core.Entities
+﻿using System.Collections.Generic;
+
+namespace TravelAgency.Core.Entities
 {
     public class Manager
     {
@@ -8,5 +10,6 @@
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public Agency Agency { get; set; }
+        public ICollection<Role> Roles { get; set; } = new List<Role>();
     }
 }
