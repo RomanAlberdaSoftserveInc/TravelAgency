@@ -94,6 +94,7 @@
     <Build Include="dbo\Functions\fnGetChecks.sql" />
     <Build Include="dbo\Views\viewCheck.sql" />
     <Build Include="dbo\Views\viewTour.sql" />
+    <Build Include="dbo\Stored Procedures\Tour\spUpdateTour.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TravelAgencyDB.publish.xml" />

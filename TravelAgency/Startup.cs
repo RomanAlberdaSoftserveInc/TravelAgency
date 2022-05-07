@@ -29,6 +29,18 @@ namespace TravelAgency
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelAgency", Version = "v1" });
             });
 
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
+                });
+            });
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITransportRepository, TransportRepository>();
             services.AddTransient<ITransportationRepository, TransportationRepository>();
@@ -50,8 +62,8 @@ namespace TravelAgency
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

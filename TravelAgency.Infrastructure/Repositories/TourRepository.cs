@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Quorum.OnDemand.Importer.Core.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -37,8 +38,8 @@ namespace TravelAgency.Infrastructure.Repositories
                 ["hotelId"] = entity.Hotel.Id == 0 ? null : entity.Hotel.Id,
                 ["tourTypeId"] = entity.TourType.Id,
                 ["tourTransportIds"] = dataTable.AsTableValuedParameter("TourTransportationType"),
-                ["createdAt"] = entity.CreatedAt,
-                ["updatedAt"] = entity.UpdatedAt,
+                ["createdAt"] = DateTime.UtcNow,
+                ["updatedAt"] = DateTime.UtcNow,
             };
             var s = await _unitOfWork.Connection.ExecuteScalarAsync<int>("dbo.spAddTour", parameters, commandType: CommandType.StoredProcedure);
             return s;
@@ -198,8 +199,29 @@ namespace TravelAgency.Infrastructure.Repositories
 
         public async Task<int> UpdateAsync(Tour entity)
         {
-            var sql = @"UPDATE tblTour SET type = @Type WHERE id = @Id";
-            return await _unitOfWork.Connection.ExecuteAsync(sql, entity, _unitOfWork.Transaction);
+            var dataTable = new DataTable("TourTransportationType");
+            dataTable.Columns.Add("transportationId", typeof(int));
+
+            entity.Transportations.Select(x => x).ToList().ForEach(x =>
+            {
+                dataTable.Rows.Add(x.Id);
+
+            });
+
+            var parameters = new Dictionary<string, object>()
+            {
+                ["tourId"] = entity.Id,
+                ["country"] = entity.Country,
+                ["city"] = entity.City,
+                ["includedInsurance"] = entity.IncludedInsurance,
+                ["hotelId"] = entity.Hotel.Id == 0 ? null : entity.Hotel.Id,
+                ["tourTypeId"] = entity.TourType.Id,
+                ["tourTransportIds"] = dataTable.AsTableValuedParameter("TourTransportationType"),
+                ["createdAt"] = DateTime.UtcNow,
+                ["updatedAt"] = DateTime.UtcNow,
+            };
+            var s = await _unitOfWork.Connection.ExecuteScalarAsync<int>("dbo.spUpdateTour", parameters, commandType: CommandType.StoredProcedure);
+            return s;
         }
     }
 

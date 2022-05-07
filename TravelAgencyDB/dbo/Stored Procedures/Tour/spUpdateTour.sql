@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[spAddTour]
+﻿CREATE PROCEDURE [dbo].[spUpdateTour]
+	@tourId int,
 	@country varchar(255),
 	@city varchar(255),
 	@includedInsurance varchar(255),
@@ -12,22 +13,16 @@ BEGIN
 	declare @errMsg nvarchar(1024);
     BEGIN TRY
 		BEGIN TRANSACTION
-		declare @outputId table (outputId int)
-		INSERT INTO tblTour
-			(country, 
-			city,
-			includedInsurance, 
-			hotelId, 
-			tourTypeId,
-			createdAt,
-			updatedAt)
-		OUTPUT inserted.id into @outputId
-		VALUES 
-			(@country, @city, @includedInsurance, @hotelId, @tourTypeId, @createdAt, @updatedAt)
-
-		declare @tourId int
-		
-		SELECT @tourId = OI.outputId FROM @outputId as OI
+		UPDATE  tblTour
+		SET country = @country,
+			city = @city,
+			includedInsurance = @includedInsurance,
+			hotelId = @hotelId,
+			tourTypeId = @tourTypeId,
+			createdAt = @createdAt,
+			updatedAt = @updatedAt
+			WHERE id = @tourId
+		DELETE FROM tblTourTransportation WHERE tourId = @tourId
 		IF EXISTS (SELECT * FROM @tourTransportIds)
 		BEGIN
 			INSERT INTO tblTourTransportation 
