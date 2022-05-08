@@ -5,8 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Quorum.OnDemand.Importer.Core.Repository;
+using System.Text.Json.Serialization;
 using TravelAgency.Core.Repository;
+using TravelAgency.Helpers;
 using TravelAgency.Infrastructure.Repositories;
+using TravelAgency.Middlewares;
+using TravelAgency.Services;
 
 namespace TravelAgency
 {
@@ -23,7 +27,16 @@ namespace TravelAgency
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            //AddJsonOptions(x =>
+            //{
+            //    //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //    // serialize enums as strings in api responses (e.g. Role)
+            //    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            //});
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelAgency", Version = "v1" });
@@ -41,6 +54,13 @@ namespace TravelAgency
                 });
             });
 
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // configure DI for application services
+            services.AddScoped<IJwtUtils, JwtUtils>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITransportRepository, TransportRepository>();
             services.AddTransient<ITransportationRepository, TransportationRepository>();
@@ -49,6 +69,7 @@ namespace TravelAgency
             services.AddTransient<ITourRepository, TourRepository>();
             services.AddTransient<IManagerRepository, ManagerRepository>();
             services.AddTransient<ICheckRepository, CheckRepoitory>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +87,11 @@ namespace TravelAgency
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
+            // global error handler
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

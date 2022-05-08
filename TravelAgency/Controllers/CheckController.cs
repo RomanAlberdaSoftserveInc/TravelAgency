@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using TravelAgency.Attributes;
 using TravelAgency.Core.Entities;
 using TravelAgency.Core.Repository;
 
@@ -37,10 +38,12 @@ namespace TravelAgency.Controllers
             return Ok(await _checkRepository.GetByIdAsync(id));
         }
 
+        [Authorize(TravelAgency.Core.Enums.Role.TravelAgent, TravelAgency.Core.Enums.Role.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetChecks()
         {
-            return Ok(await _checkRepository.GetAllAsync());
+            var result = await _checkRepository.GetAllAsync();
+            return Ok(result);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace TravelAgency.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Manager>> GetAllAsync()
         {
-            var sql = @"SELECT m.id, m.name, m.surname, m.email, m.phoneNumber, r.id, r.name, a.id, a.name, a.helpNumber, a.address
+            var sql = @"SELECT m.id, m.name, m.surname, m.password, m.email, m.phoneNumber, r.id, r.name, a.id, a.name, a.helpNumber, a.address
 		                FROM tblManager as m
 		                INNER JOIN tblRoleManager rm
 		                ON rm.managerId = m.id
@@ -51,6 +51,10 @@ namespace TravelAgency.Infrastructure.Repositories
             var managers = await _unitOfWork.Connection.QueryAsync<Manager, Role, Agency, Manager>(sql, (manager, role, agency) =>
             {
                 manager.Roles.Add(role);
+                if(manager.Agency == null)
+                {
+                    manager.Agency = new Agency();
+                }
                 manager.Agency = agency;
                 return manager;
             },
@@ -83,6 +87,31 @@ namespace TravelAgency.Infrastructure.Repositories
                 return manager;
             },
             param: new { id },
+            splitOn: "id");
+
+            var result = managers.GroupBy(p => p.Id).Select(g =>
+            {
+                var groupedPost = g.First();
+                groupedPost.Roles = g.Select(p => p.Roles.Single()).ToList();
+                return groupedPost;
+            });
+            return result.FirstOrDefault();
+        }
+
+        public async Task<Manager> GetUserWithRolesAsync(int Id)
+        {
+            var sql = @"SELECT m.id, m.email, r.id, r.name FROM tblManager m
+                        INNER JOIN tblRoleManager rm
+                        ON rm.managerId = m.id
+                        INNER JOIN tblRole r
+                        ON rm.roleId = r.id
+                        WHERE m.id = @id";
+            var managers = await _unitOfWork.Connection.QueryAsync<Manager, Role, Manager>(sql, (manager, role) =>
+            {
+                manager.Roles.Add(role);
+                return manager;
+            },
+            param: new { Id },
             splitOn: "id");
 
             var result = managers.GroupBy(p => p.Id).Select(g =>
